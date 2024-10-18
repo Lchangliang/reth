@@ -35,6 +35,9 @@ zstd = { workspace = true, optional = true }
 serde.workspace = true
 arbitrary = { workspace = true, features = ["derive"], optional = true }
 
+# io
+serde.workspace = true
+
 # misc
 derive_more = { workspace = true, features = ["deref", "from", "constructor"] }
 proptest = { workspace = true, optional = true }
