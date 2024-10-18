@@ -1,4 +1,4 @@
-//! API of a signed transaction, w.r.t. network stack.
+//! API of a signed transaction.
 
 use alloc::fmt;
 use core::hash::Hash;
@@ -55,13 +55,6 @@ pub trait SignedTransaction:
     /// Returns `None` if the transaction's signature is invalid, see also
     /// `reth_primitives::transaction::recover_signer_unchecked`.
     fn recover_signer_unchecked(&self) -> Option<Address>;
-
-    /// Output the length of the `encode_inner(out`, true). Note to assume that `with_header` is
-    /// only `true`.
-    fn payload_len_inner(&self) -> usize;
-
-    /// Returns the length without an RLP header - this is used for eth/68 sizes.
-    fn length_without_header(&self) -> usize;
 
     /// Create a new signed transaction from a transaction and its signature.
     ///

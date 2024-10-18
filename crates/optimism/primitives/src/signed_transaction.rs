@@ -62,47 +62,6 @@ impl SignedTransaction for OpTransactionSigned {
         self.signature.recover_signer_unchecked(signature_hash)
     }
 
-    fn payload_len_inner(&self) -> usize {
-        match &self.transaction {
-            OpTypedTransaction::Legacy(legacy_tx) => legacy_tx
-                .encoded_len_with_signature(&self.signature.with_eip155_parity(legacy_tx.chain_id)),
-            OpTypedTransaction::Eip2930(access_list_tx) => {
-                access_list_tx.encoded_len_with_signature(&self.signature, true)
-            }
-            OpTypedTransaction::Eip1559(dynamic_fee_tx) => {
-                dynamic_fee_tx.encoded_len_with_signature(&self.signature, true)
-            }
-            OpTypedTransaction::Eip4844(blob_tx) => {
-                blob_tx.encoded_len_with_signature(&self.signature, true)
-            }
-            /*OpTypedTransaction::Eip7702(set_code_tx) => {
-                set_code_tx.encoded_len_with_signature(&self.signature, true)
-            }*/
-            OpTypedTransaction::Deposit(deposit_tx) => deposit_tx.encoded_len(true),
-        }
-    }
-
-    fn length_without_header(&self) -> usize {
-        // method computes the payload len without a RLP header
-        match &self.transaction {
-            OpTypedTransaction::Legacy(legacy_tx) => legacy_tx
-                .encoded_len_with_signature(&self.signature.with_eip155_parity(legacy_tx.chain_id)),
-            OpTypedTransaction::Eip2930(access_list_tx) => {
-                access_list_tx.encoded_len_with_signature(&self.signature, false)
-            }
-            OpTypedTransaction::Eip1559(dynamic_fee_tx) => {
-                dynamic_fee_tx.encoded_len_with_signature(&self.signature, false)
-            }
-            OpTypedTransaction::Eip4844(blob_tx) => {
-                blob_tx.encoded_len_with_signature(&self.signature, false)
-            }
-            /*OpTypedTransaction::Eip7702(set_code_tx) => {
-                set_code_tx.encoded_len_with_signature(&self.signature, false)
-            }*/
-            OpTypedTransaction::Deposit(deposit_tx) => deposit_tx.encoded_len(false),
-        }
-    }
-
     fn from_transaction_and_signature(
         transaction: Self::Transaction,
         signature: Self::Signature,
