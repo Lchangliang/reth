@@ -550,7 +550,7 @@ mod tests {
     /// Invalid block range
     #[tokio::test]
     async fn test_fee_history_empty() {
-        let response = <EthApi<_, _, _, _> as EthApiServer<_, _, _>>::fee_history(
+        let response = <EthApi<_, _, _, _> as EthApiServer<_, _, _, _>>::fee_history(
             &build_test_eth_api(NoopProvider::default()),
             U64::from(1),
             BlockNumberOrTag::Latest,
@@ -572,7 +572,7 @@ mod tests {
         let (eth_api, _, _) =
             prepare_eth_api(newest_block, oldest_block, block_count, MockEthProvider::default());
 
-        let response = <EthApi<_, _, _, _> as EthApiServer<_, _, _>>::fee_history(
+        let response = <EthApi<_, _, _, _> as EthApiServer<_, _, _, _>>::fee_history(
             &eth_api,
             U64::from(newest_block + 1),
             newest_block.into(),
@@ -595,7 +595,7 @@ mod tests {
         let (eth_api, _, _) =
             prepare_eth_api(newest_block, oldest_block, block_count, MockEthProvider::default());
 
-        let response = <EthApi<_, _, _, _> as EthApiServer<_, _, _>>::fee_history(
+        let response = <EthApi<_, _, _, _> as EthApiServer<_, _, _, _>>::fee_history(
             &eth_api,
             U64::from(1),
             (newest_block + 1000).into(),
@@ -618,7 +618,7 @@ mod tests {
         let (eth_api, _, _) =
             prepare_eth_api(newest_block, oldest_block, block_count, MockEthProvider::default());
 
-        let response = <EthApi<_, _, _, _> as EthApiServer<_, _, _>>::fee_history(
+        let response = <EthApi<_, _, _, _> as EthApiServer<_, _, _, _>>::fee_history(
             &eth_api,
             U64::from(0),
             newest_block.into(),
