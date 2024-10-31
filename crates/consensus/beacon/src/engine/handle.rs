@@ -12,6 +12,7 @@ use reth_rpc_types::engine::{
 };
 use reth_tokio_util::{EventSender, EventStream};
 use tokio::sync::{mpsc::UnboundedSender, oneshot};
+use tracing::debug;
 
 /// A _shareable_ beacon consensus frontend type. Used to interact with the spawned beacon consensus
 /// engine task.
@@ -50,6 +51,7 @@ where
     ) -> Result<PayloadStatus, BeaconOnNewPayloadError> {
         let (tx, rx) = oneshot::channel();
         let _ = self.to_engine.send(BeaconEngineMessage::NewPayload { payload, cancun_fields, tx });
+        debug!("new_payload send BeaconEngineMessage::NewPayload");
         rx.await.map_err(|_| BeaconOnNewPayloadError::EngineUnavailable)?
     }
 

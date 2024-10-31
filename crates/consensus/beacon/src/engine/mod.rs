@@ -1865,14 +1865,17 @@ where
                         BeaconEngineMessage::NewPayload { payload, cancun_fields, tx } => {
                             match this.on_new_payload(payload, cancun_fields) {
                                 Ok(Either::Right(block)) => {
+                                    debug!("NewPayload Either::Right");
                                     this.set_blockchain_tree_action(
                                         BlockchainTreeAction::InsertNewPayload { block, tx },
                                     );
                                 }
                                 Ok(Either::Left(status)) => {
+                                    debug!("NewPayload Either::Left");
                                     let _ = tx.send(Ok(status));
                                 }
                                 Err(error) => {
+                                    debug!("NewPayload error");
                                     let _ = tx.send(Err(error));
                                 }
                             }
